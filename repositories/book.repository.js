@@ -26,11 +26,12 @@ export class BookRepository {
   }
 
   async updateBook(id, book) {
-    return await Book.update(book, {
+    const [affected] = await Book.update(book, {
       where: {
         id: id,
       },
     });
+    return affected;
   }
 
   async deleteBook(id) {

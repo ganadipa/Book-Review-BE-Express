@@ -2,8 +2,9 @@ import { InternalServerErrorException } from "../exceptions/internal-server-erro
 import { NotFoundException } from "../exceptions/not-found.exception.js";
 
 export class ReviewService {
-  constructor(bookRepository) {
+  constructor(bookRepository, reviewRepository) {
     this.bookRepository = bookRepository;
+    this.reviewRepository = reviewRepository;
   }
 
   async createReview(bookId, review) {
@@ -24,7 +25,7 @@ export class ReviewService {
   }
 
   async deleteReview(reviewId) {
-    const deletedReview = await this.bookRepository.deleteReview(reviewId);
+    const deletedReview = await this.reviewRepository.deleteReview(reviewId);
     if (!deletedReview) {
       throw new InternalServerErrorException("Could not delete review");
     }

@@ -44,6 +44,7 @@ export class BookService {
 
   async deleteBook(id) {
     const deletedBook = await this.bookRepository.deleteBook(id);
+    console.log(deletedBook);
     if (!deletedBook) {
       throw new NotFoundException("Book not found");
     }
