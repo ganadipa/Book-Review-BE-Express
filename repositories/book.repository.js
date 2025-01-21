@@ -1,3 +1,5 @@
+import Book from "../models/book.model.js";
+
 export class BookRepository {
   constructor(sqlize) {
     this.sequelize = sqlize;
@@ -5,6 +7,6 @@ export class BookRepository {
 
   async getAllBooks() {
     console.log(this.sequelize.models);
-    return await this.sequelize.models.Book.findAll();
+    return await Book.findAll();
   }
 }

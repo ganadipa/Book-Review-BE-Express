@@ -1,11 +1,7 @@
 import express from "express";
-import { BookController } from "../controllers/book.controller.js";
 import { BadRequestException } from "../exceptions/bad-request.exception.js";
 import { InternalServerErrorException } from "../exceptions/internal-server-error.exception.js";
-import { BookRepository } from "../repositories/book.repository.js";
-import { BookService } from "../services/book.service.js";
-import database from "../config/db.js";
-import { bookController } from "../config/config.js";
+import { bookController } from "../config/ioc.js";
 
 const router = express.Router();
 

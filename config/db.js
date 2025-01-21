@@ -1,7 +1,7 @@
 import { Sequelize } from "@sequelize/core";
 import { PostgresDialect } from "@sequelize/postgres";
 
-class Database {
+export class Database {
   constructor() {
     if (!Database.instance) {
       this.sequelize = new Sequelize({
@@ -11,7 +11,6 @@ class Database {
         password: process.env.DB_PASSWORD,
         host: process.env.DB_HOST,
         port: parseInt(process.env.DB_PORT, 10),
-        models: [],
       });
       Database.instance = this;
     }
