@@ -14,13 +14,4 @@ router.delete("/books/:id", bookController.deleteBook);
 router.post("/books/:id/reviews", bookController.createReview);
 router.delete("/reviews/:id", bookController.deleteReview);
 
-// Testing error routes
-router.get("/bad-request", (req, res) => {
-  throw new BadRequestException("Invalid input!");
-});
-
-router.get("/server-error", (req, res) => {
-  throw new InternalServerErrorException("Unexpected issue occurred!");
-});
-
 export default router;
