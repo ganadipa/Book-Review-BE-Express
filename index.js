@@ -3,6 +3,10 @@ import express from "express";
 import { BookController } from "./controllers/book.controller.js";
 
 import database from "./config/db.js";
+import { errorHandler } from "./middlewares/error-handler.js";
+import { BadRequestException } from "./exceptions/bad-request.exception.js";
+import { InternalServerErrorException } from "./exceptions/internal-server-error.exception.js";
+import bookRouter from "./routes/book-routes.js";
 
 const app = express();
 
@@ -12,26 +16,9 @@ const port = 8080;
   await database.authenticate();
 })();
 
-const bookController = new BookController();
+app.use(bookRouter);
 
-// Get all books
-app.get("/books", bookController.getBooks);
-{
-  // Get book by id
-  app.get("/books/:id", bookController.getBookById);
-
-  // Create a book
-  app.post("/books", bookController.createBook);
-
-  //
-  app.put("/books/:id", bookController.updateBook);
-
-  app.delete("/books/:id", bookController.deleteBook);
-
-  app.post("/books/:id/reviews", bookController.createReview);
-}
-
-app.delete("/reviews/:id", bookController.deleteReview);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

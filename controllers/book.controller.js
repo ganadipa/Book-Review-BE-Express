@@ -1,6 +1,15 @@
 export class BookController {
+  constructor(bookService) {
+    this.bookService = bookService;
+  }
+
   getBooks = (req, res, next) => {
-    res.send("Get all books");
+    const books = this.bookService.getBooks();
+    res.json({
+      success: true,
+      message: "Successfully retrieved books",
+      data: books,
+    });
   };
 
   getBookById = (req, res, next) => {
