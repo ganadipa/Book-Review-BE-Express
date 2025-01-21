@@ -1,4 +1,13 @@
 import path from "path";
+import express from "express";
 
-console.log("Hello, ES6 Modules!");
-console.log("Current directory:", path.resolve());
+const app = express();
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+const port = 8080;
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
