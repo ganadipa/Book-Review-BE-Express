@@ -1,6 +1,8 @@
 # Project Setup Guide
 
-This guide will walk you through setting up the project from cloning the repository to configuring the database using PostgreSQL on your local machine.
+This guide will walk you through setting up the project, running migrations, and seeding data for the PostgreSQL database.
+
+---
 
 ## Prerequisites
 
@@ -94,12 +96,22 @@ DB_DIALECT=postgres
 
 ---
 
-### 5. Start the Application
+### 5. Run Migrations
+
+To set up the database schema, run:
+
+```bash
+make migrate
+```
+
+---
+
+### 6. Start the Application
 
 Start the development server:
 
 ```bash
-npm start
+make
 ```
 
 If successful, the application will be running, and you should see a message like:
