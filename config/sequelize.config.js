@@ -1,6 +1,12 @@
 import dotenv from "dotenv";
 
 dotenv.config();
+
+/**
+ * @description This is actually copy pasted from the sequelize documentation
+ *
+ * This is used for migration
+ */
 export default {
   development: {
     username: process.env.DB_USER || "root",

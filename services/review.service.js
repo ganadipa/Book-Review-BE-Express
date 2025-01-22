@@ -7,6 +7,8 @@ export class ReviewService {
     this.reviewRepository = reviewRepository;
   }
 
+  // Create a review for a book
+  // returns the newly created review
   async createReview(bookId, review) {
     const book = await this.bookRepository.getBookById(bookId);
     if (!book) {
@@ -24,6 +26,8 @@ export class ReviewService {
     return newReview;
   }
 
+  // Delete a review by ID
+  // returns the number of affected rows
   async deleteReview(reviewId) {
     const deletedReview = await this.reviewRepository.deleteReview(reviewId);
     if (!deletedReview) {

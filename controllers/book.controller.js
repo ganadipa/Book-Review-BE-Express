@@ -1,15 +1,23 @@
 import { z } from "zod";
 import { BadRequestException } from "../exceptions/bad-request.exception.js";
-import Book from "../models/book.model.js";
 
+/**
+ * Documentation for the file book.controller
+ */
 export class BookController {
   constructor(bookService, reviewService) {
     this.bookService = bookService;
     this.reviewService = reviewService;
   }
 
+  // Define controller methods
+
+  // Get all books
   getBooks = async (req, res, next) => {
+    // Here, the service is expected to return a list of books
     const books = await this.bookService.getBooks();
+
+    // Return the list of books as a JSON response
     res.json({
       success: true,
       message: "Successfully retrieved books",
@@ -17,6 +25,7 @@ export class BookController {
     });
   };
 
+  // Get a book by ID
   getBookById = async (req, res, next) => {
     try {
       const id = req.params.id;
@@ -47,6 +56,7 @@ export class BookController {
     }
   };
 
+  // Create a new book
   createBook = async (req, res, next) => {
     try {
       // Define Zod schema for book data validation
@@ -98,6 +108,7 @@ export class BookController {
     }
   };
 
+  // Update a book
   updateBook = async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -128,6 +139,7 @@ export class BookController {
     }
   };
 
+  // Delete a book
   deleteBook = async (req, res, next) => {
     try {
       const { id } = req.params; // Get the book ID from the URL
@@ -157,6 +169,7 @@ export class BookController {
     }
   };
 
+  // Create a review for a book
   createReview = async (req, res, next) => {
     try {
       const bookId = req.params.id;
@@ -208,6 +221,7 @@ export class BookController {
     }
   };
 
+  // Delete a review using the review ID
   deleteReview = async (req, res, next) => {
     try {
       const { id } = req.params; // Get the review ID from the URL

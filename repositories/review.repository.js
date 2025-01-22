@@ -5,6 +5,8 @@ export class ReviewRepository {
     this.sequelize = sqlize;
   }
 
+  // Method to get all reviews
+  // returns the number of affected rows
   async deleteReview(reviewId) {
     return await Review.destroy({
       where: {

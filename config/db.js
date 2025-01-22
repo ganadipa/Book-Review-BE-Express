@@ -1,6 +1,13 @@
 import { Sequelize } from "@sequelize/core";
 import { PostgresDialect } from "@sequelize/postgres";
 
+/**
+ * Database class to handle the connection to the database
+ * and provide the Sequelize instance
+ *
+ * @class Database
+ * Singleton class to handle the connection to the database
+ */
 export class Database {
   constructor() {
     if (!Database.instance) {
@@ -17,6 +24,7 @@ export class Database {
     return Database.instance;
   }
 
+  // Test to see if the connection is successful
   async authenticate() {
     try {
       await this.sequelize.authenticate();
@@ -26,12 +34,16 @@ export class Database {
     }
   }
 
+  // Get the Sequelize instance
   getSequelize() {
     return this.sequelize;
   }
 }
 
+// Create a new instance of the Database class
 const database = new Database();
+
+// Freeze the object to prevent modification
 Object.freeze(database);
 
 export default database;
