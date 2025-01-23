@@ -1,5 +1,7 @@
-import { InternalServerErrorException } from "../exceptions/internal-server-error.exception.js";
-import { NotFoundException } from "../exceptions/not-found.exception.js";
+import { BookRepository } from "../repositories/book.repository.js";
+import ZodValidator from "../validations/ZodValidator.js";
+import { BookSchema } from "../validations/zod-schema/book.schema.js";
+import { StringSchema } from "../validations/zod-schema/common/string-schema.js";
 
 /**
  * @Service
@@ -9,62 +11,46 @@ import { NotFoundException } from "../exceptions/not-found.exception.js";
  * It will interact with the BookRepository to perform CRUD operations.
  */
 export class BookService {
-  constructor(bookRepository) {
-    this.bookRepository = bookRepository;
-  }
-
   // Get all books
   // returns a list of all books
-  async getBooks() {
-    try {
-      return await this.bookRepository.getAllBooks();
-    } catch (error) {
-      throw new InternalServerErrorException("Database error occurred");
-    }
+  static async getBooks() {
+    return await BookRepository.getAllBooks();
   }
 
   // Get a book by ID
   // returns a book with the specified ID and its reviews
-  async getBookById(id) {
-    const theBook = await this.bookRepository.getBookById(id);
-
-    if (!theBook) {
-      throw new NotFoundException("Book not found");
-    }
-
+  static async getBookById(id) {
+    const numId = ZodValidator.validate(StringSchema.IS_NUMBER, id);
+    const theBook = await BookRepository.getBookById(numId);
     return theBook;
   }
 
   // Create a new book
   // returns the newly created book
-  async createBook(book) {
-    const newBook = await this.bookRepository.createBook(book);
-    if (!newBook) {
-      throw new InternalServerErrorException("Could not create book");
-    }
-
+  static async createBook(expectingBook) {
+    const book = ZodValidator.validate(BookSchema.CREATE, expectingBook);
+    const newBook = await BookRepository.createBook(book);
     return newBook;
   }
 
   // Update a book by ID
   // returns the number of affected rows
-  async updateBook(id, book) {
-    const updatedBook = await this.bookRepository.updateBook(id, book);
-    if (!updatedBook) {
-      throw new NotFoundException("Book not found");
-    }
+  static async updateBook(expectingId, expectingPartialBook) {
+    const id = ZodValidator.validate(StringSchema.IS_NUMBER, expectingId);
+    const book = ZodValidator.validate(
+      BookSchema.PARTIAL_UPDATE,
+      expectingPartialBook
+    );
 
+    const updatedBook = await BookRepository.updateBook(id, book);
     return updatedBook;
   }
 
   // Delete a book by ID
   // returns the number of affected rows
-  async deleteBook(id) {
-    const deletedBook = await this.bookRepository.deleteBook(id);
-    console.log(deletedBook);
-    if (!deletedBook) {
-      throw new NotFoundException("Book not found");
-    }
+  static async deleteBook(expectingId) {
+    const id = ZodValidator.validate(StringSchema.IS_NUMBER, expectingId);
+    const deletedBook = await BookRepository.deleteBook(id);
 
     return deletedBook;
   }

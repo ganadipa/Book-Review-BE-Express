@@ -1,11 +1,8 @@
 import "./config/env.js";
 import express from "express";
-import { BookController } from "./controllers/book.controller.js";
 
 import database from "./config/db.js";
 import { errorHandler } from "./middlewares/error-handler.js";
-import { BadRequestException } from "./exceptions/bad-request.exception.js";
-import { InternalServerErrorException } from "./exceptions/internal-server-error.exception.js";
 import bookRouter from "./routes/book-routes.js";
 import bodyParser from "body-parser";
 

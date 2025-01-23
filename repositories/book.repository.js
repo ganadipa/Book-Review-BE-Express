@@ -1,22 +1,19 @@
+import { NotFoundException } from "../exceptions/not-found.exception.js";
 import Book from "../models/book.model.js";
 import Review from "../models/review.model.js";
 
 // BookRepository class with methods to interact with the Book model
 export class BookRepository {
-  constructor(sqlize) {
-    this.sequelize = sqlize;
-  }
-
   // Method to get all books
   // returns a list of all books
-  async getAllBooks() {
+  static async getAllBooks() {
     return await Book.findAll();
   }
 
   // Method to get a book by ID
   // returns a book with the specified ID and its reviews
-  async getBookById(id) {
-    return await Book.findByPk(id, {
+  static async getBookById(id) {
+    const theBook = await Book.findByPk(id, {
       include: [
         {
           model: Review,
@@ -24,32 +21,49 @@ export class BookRepository {
         },
       ],
     });
+
+    if (!theBook) {
+      throw new NotFoundException("Book not found");
+    }
+
+    return theBook;
   }
 
   // Method to create a new book
   // returns the newly created book
-  async createBook(book) {
+  static async createBook(book) {
     return await Book.create(book);
   }
 
   // Method to update a book by ID
   // returns the number of affected rows
-  async updateBook(id, book) {
+  static async updateBook(id, book) {
     const [affected] = await Book.update(book, {
       where: {
         id: id,
       },
     });
+
+    if (affected === 0) {
+      throw new NotFoundException("Book not found");
+    }
+
     return affected;
   }
 
   // Method to delete a book by ID
   // returns the number of affected rows
-  async deleteBook(id) {
-    return await Book.destroy({
+  static async deleteBook(id) {
+    const affected = await Book.destroy({
       where: {
         id: id,
       },
     });
+
+    if (affected === 0) {
+      throw new NotFoundException("Book not found");
+    }
+
+    return affected;
   }
 }
